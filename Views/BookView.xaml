@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="egui_project.Views.BookView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:egui_project.Views"
+             xmlns:viewModel = "clr-namespace:egui_project.ViewModel"
+             xmlns:data ="clr-namespace:egui_project.Model"        
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <DataTemplate DataType = "{x:Type data:Book}">
+
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <!--Filter Panel-->
+
+    <StackPanel Margin="16">
+        <Label>Filter</Label>
+        <Border  BorderBrush="#000000" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" ></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Margin ="2,4,2,4" >Author</Label>
+                <TextBox Grid.Column="1" Margin ="2,4,2,4"  x:Name="FilterAuthor"
+                         Text="{Binding SearchAuthor,UpdateSourceTrigger = PropertyChanged, Mode=TwoWay}"        
+                         ></TextBox>
+               
+                <Label Grid.Column="2" Margin ="2,4,2,4">Title</Label>
+                <TextBox Grid.Column="3" Margin ="2,4,2,4"  x:Name="FilterTitle"
+                         Text="{Binding SearchTitle,UpdateSourceTrigger = PropertyChanged, Mode=TwoWay}"
+                          ></TextBox>
+
+                <Label Grid.Column="4" Margin ="2,4,2,4">Year</Label>
+                <ComboBox Grid.Column="5" Margin ="2,4,2,4" x:Name="comboBox"
+                          ItemsSource="{Binding Years, UpdateSourceTrigger = PropertyChanged, Mode=TwoWay }"
+                          SelectedItem ="{Binding SearchYear, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"      
+                          ></ComboBox>
+               
+                <Button Grid.Column="6" Margin ="4,4,1,4" Click="FilterItems_Click">Filter</Button>
+                <Button Grid.Column="7" Margin="1,4,4,4" Click="ClearFilter_Click">Clear</Button>
+
+            </Grid>
+        </Border>
+
+        <!--Table for books using data grid-->
+        <DataGrid 
+                ItemsSource="{Binding BooksView}" 
+                SelectedItem="{Binding Book}"
+                AutoGenerateColumns="False"
+                Margin="0,12,0,12" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="dataGrid" VerticalAlignment="Top" MaxHeight="150" IsReadOnly="True"
+                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Author" Width="3*"
+                    Binding="{Binding Author}"/>
+               
+                <DataGridTextColumn Header="Title" Width="5*"
+                    Binding="{Binding Title}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+               
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Year" Width="*" 
+                    Binding="{Binding Year}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--Add Edit Delete Buttons-->
+
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button DockPanel.Dock="Bottom" Grid.Column="0" Margin ="16,4,4,4" Click="OpenAddBookWindow_Click" >Add</Button>
+            <Button DockPanel.Dock="Bottom" Grid.Column="1" Margin="4,4,4,4" Click="OpenEditWindow_Click">Edit</Button>
+            <Button DockPanel.Dock="Bottom" Grid.Column="2" Margin ="4,4,16,4" Click="DeleteItems_Click" >Delete</Button>
+
+        </Grid>
+
+    </StackPanel>
+
+
+
+
+
+</UserControl>
