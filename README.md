@@ -1,4 +1,4 @@
-# EGUI-Library-in-WPF
+Library App WPF MVVM
 
 Library in WPF
 Please write simple Library application using WPF (under windows)
